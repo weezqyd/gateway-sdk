@@ -1,0 +1,44 @@
+{
+    "name": "roamtech/gateway-api",
+    "description": "Roamtech Gateway API implementation",
+    "type": "library",
+    "keywords": ["gateway", "roamtech", "laravel", "sms", "api"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Leitato Albert",
+            "email": "wizqydy@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Roamtech\\Gateway\\": "src/Gateway/"
+        },
+        "files": ["src/Gateway/Support/config.php"]
+    },
+     "autoload-dev": {
+        "psr-4": {
+            "Roamtech\\Gateway\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Roamtech\\Gateway\\Laravel\\ServiceProvider"
+            ],
+            "aliases": {
+                "RoamtechGateway": "Roamtech\\Gateway\\Laravel\\Facades\\Roamtech"
+            }
+        }
+    },
+    "require": {
+        "php": ">=7.0",
+        "guzzlehttp/guzzle": "^6.2",
+        "illuminate/support": "^5.0",
+        "nesbot/carbon": "~1.21"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.7|~6.2"
+    },
+    "minimum-stability": "stable"
+}

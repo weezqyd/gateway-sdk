@@ -1,0 +1,9 @@
+/.idea
+/vendor
+.php_cs.cache
+index.php
+/cache
+/config
+dev.phpunit.xml
+.DS_Store
+api-test.php
