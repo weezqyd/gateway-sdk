@@ -4,9 +4,9 @@ namespace Roamtech\Gateway\Support;
 
 use Composer\Script\Event;
 
-class Installer
+class Bootstrap
 {
-    public static function install(Event $event)
+    public static function run(Event $event)
     {
         $config    = __DIR__ . '/../../../assets/config/roamtechapi.php';
         $configDir = self::getConfigDirectory($event);
