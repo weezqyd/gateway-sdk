@@ -70,4 +70,22 @@ $messages = [
 $response = $gateway->sms()->sendBulkMessages($messages, ['from' => 'YourSenderId']);
 var_dump($response);
 ``` 
+#### Send single SMS
+This API allows you to send a single message to one or multiple recipients. 
 
+```php
+$recipients = ['25472xxxxxxx', '25471xxxxxxx'];
+$message = 'A test message to say hello';
+$options = ['from' => 'YourSenderId'];
+
+// Let us send our message 
+$response = $gateway->sms()->sendMessage($message, $recipients, $options);
+var_dump($response);
+```
+#### Get Delivery reports
+To get delivery reports for messages use this snipet
+```pho
+$messageId = '448768fjkhgcs4cykxuy8747r9c489';
+$response = $gateway->sms()->getDeliveryReport($messageId);
+var_dump($response);
+```
