@@ -30,4 +30,12 @@ class Client
     {
         return new Api\SMS\Message($this->gateway);
     }
+
+    /**
+     * Expose the SMS API.
+     **/
+    public function airtime()
+    {
+        return new Api\Airtime\Transaction($this->gateway);
+    }
 }

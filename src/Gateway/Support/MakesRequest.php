@@ -21,7 +21,7 @@ trait MakesRequest
 
             return \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
         } catch (RequestException $exception) {
-            return \GuzzleHttp\json_decode($exception->getResponse());
+            return \GuzzleHttp\json_decode($exception->getResponse()->getBody()->getContents());
         }
     }
 
@@ -45,23 +45,4 @@ trait MakesRequest
         ]);
     }
 
-    /**
-     * Generate the result callback url.
-     * The generated url is based on the values provided in the configuration.
-     *
-     * @param string $option
-     *
-     * @return string
-     **/
-    protected function callback($option)
-    {
-        $config = $this->gateway->config;
-        $callback = \ltrim($config->get($option), '/');
-        if ($config->get('roamtechapi.default_callbacks')) {
-            $endpoint = \rtrim($config->get('roamtechapi.callbacks_endpoint'), '/');
-            $callback = "{$endpoint}/{$callback}";
-        }
-
-        return $callback;
-    }
 }

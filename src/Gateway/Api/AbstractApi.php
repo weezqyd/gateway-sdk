@@ -32,8 +32,8 @@ abstract class AbstractApi
      */
     protected function buildEndpoint($uri)
     {
-        $version = $this->gateway->config->get('api_version');
-        $project = $this->gateway->config->get('project_id');
+        $version = $this->gateway->config->get('roamtechapi.api_version');
+        $project = $this->gateway->config->get('roamtechapi.project_id');
 
         return sprintf('%s/projects/%s/%s', $version, $project, $uri);
     }

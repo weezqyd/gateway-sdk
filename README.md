@@ -84,8 +84,11 @@ var_dump($response);
 ```
 #### Get Delivery reports
 To get delivery reports for messages use this snipet
-```pho
+```php
 $messageId = '448768fjkhgcs4cykxuy8747r9c489';
 $response = $gateway->sms()->getDeliveryReport($messageId);
 var_dump($response);
 ```
+
+### Airtime
+Coming soon

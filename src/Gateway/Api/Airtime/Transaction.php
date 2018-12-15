@@ -15,28 +15,15 @@ class Transaction extends AbstractApi
 {
     private $recipients;
 
-    private $amount;
-
     private $callback = null;
 
     public function setRecipients(array $recipients)
     {
-        $recipients = array_filter(array_unique($recipients), function($number) {
-            return substr((int)$number, 0,4) === 2547;
+        $recipients = array_filter(array_unique($recipients), function($recipient) {
+            return substr((int)$recipient['phoneNumber'], 0,4) === 2547 && $recipient['amount'] >= 5;
         });
 
         $this->recipients = $recipients;
-
-        return $this;
-    }
-
-    /**
-     * @param float $amount
-     * @return $this
-     */
-    public function setAmount(float $amount)
-    {
-        $this->amount = $amount * 100;
 
         return $this;
     }
@@ -49,10 +36,10 @@ class Transaction extends AbstractApi
      */
     public function setCallback($url = null)
     {
-        if($url === null)
+        if ($url === null)
             return $this;
 
-        if(filter_var($url, FILTER_VALIDATE_URL)) {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
             $this->callback = $url;
 
             return $this;
@@ -62,26 +49,24 @@ class Transaction extends AbstractApi
     }
 
     /**
-     * @param null|int $amount
      * @param array $recipients
      * @param null|string $callback
      * @return mixed
      * @throws ErrorException
      */
-    public function purchase($amount = null, array $recipients = [], $callback = null)
+    public function purchase(array $recipients = [], $callback = null)
     {
-        $this->amount ?: $this->setAmount($amount);
+        //$this->amount ?: $this->setAmount($amount);
         $this->recipients ?: $this->setRecipients($recipients);
         $this->callback ?: $this->setCallback($callback);
         $this->endpoint = $this->buildEndpoint('airtime/purchase');
         $params = [
-            'recipients' => $recipients,
-            'amount' => $amount
+            'recipients' => $this->recipients,
         ];
-        if($callback = $this->callback) {
-            $params['callback'] = $callback;
+        if (!empty($this->callback)) {
+            $params['callback'] = $this->callback;
         }
-
+        var_dump($params);
         return $this->handleRequest('POST', $params);
     }
 }
