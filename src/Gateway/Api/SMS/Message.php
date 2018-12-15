@@ -30,7 +30,7 @@ class Message extends AbstractApi
         $params = array_merge([
             'messages' => $messages,
         ], $options);
-        $this->endpoint = $this->buildEndpoint('sms/bulk/send');
+        $this->endpoint = $this->buildEndpoint('sms/bulk');
 
         return $this->handleRequest('POST', $params);
     }
