@@ -11,13 +11,17 @@ return [
     | Possible values: sandbox | production
     */
 
-    'status' => env('ROAMTECH_API_ENV', 'sandbox'),
+    'status' => 'production',
 
-    'production_endpoint' => 'https://roamtech-gateway.appspot.com',
+    'api_endpoint' => 'https://roamtech-gateway.appspot.com',
 
-    'client_id' => env('ROAMTECH_API_CLIENT_ID'),
+    'api_version' => 'v1',
 
-    'client_secret' => env('ROAMTECH_API_CLIENT_SECRET'),
+    'project_id' => 'YourProjectId',
+
+    'client_id' => 'API_CLIENT_ID',
+
+    'client_secret' => 'API_CLIENT_SECRET',
     /*
     |--------------------------------------------------------------------------
     | File Cache Location

@@ -21,7 +21,8 @@ trait MakesRequest
 
             return \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
         } catch (RequestException $exception) {
-            return \GuzzleHttp\json_decode($exception->getResponse()->getBody()->getContents());
+            throw $exception;
+            //return //\GuzzleHttp\json_decode($exception->getResponse()->getBody()->getContents());
         }
     }
 
