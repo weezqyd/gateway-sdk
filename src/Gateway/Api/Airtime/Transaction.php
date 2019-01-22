@@ -66,7 +66,6 @@ class Transaction extends AbstractApi
         if (!empty($this->callback)) {
             $params['callback'] = $this->callback;
         }
-        var_dump($params);
         return $this->handleRequest('POST', $params);
     }
 }
