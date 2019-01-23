@@ -7,9 +7,9 @@ use Throwable;
 
 class ErrorException extends Exception
 {
-    public function __construct(array $message, $code = 0, Throwable $previous = null)
+    public function __construct($message, $code = 0, Throwable $previous = null)
     {
-        $message = \GuzzleHttp\json_encode($message);
+        $message = is_array($message) ? \GuzzleHttp\json_encode($message) : $message;
 
         parent::__construct($message, $code, $previous);
     }
