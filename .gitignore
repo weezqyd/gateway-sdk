@@ -7,3 +7,4 @@ index.php
 dev.phpunit.xml
 .DS_Store
 api-test.php
+composer.phar
