@@ -24,6 +24,17 @@ class Message extends AbstractApi
         return $this->handleRequest('POST', $params);
     }
 
+    public function sendPremiumMessage($message, array $recipients, array $options = [])
+    {
+        $this->endpoint = $this->buildEndpoint('sms/premium/send');
+        $params = array_merge($options, [
+            'message' => $message,
+            'to' => $recipients
+        ]);
+
+        return $this->handleRequest('POST', $params);
+    }
+
     public function sendBulkMessages($payload, array $options = [])
     {
        $messages = $this->validateBulkPayLoad($payload);

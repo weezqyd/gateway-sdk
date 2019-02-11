@@ -6,5 +6,6 @@ index.php
 /config
 dev.phpunit.xml
 .DS_Store
-api-test.php
+apitest.php
 composer.phar
+composer.lock

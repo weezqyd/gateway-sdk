@@ -13,7 +13,7 @@ return [
 
     'status' => 'production',
 
-    'api_endpoint' => 'https://roamtech-gateway.appspot.com',
+    'api_endpoint' => 'https://api.emalify.com',
 
     'api_version' => 'v1',
 
