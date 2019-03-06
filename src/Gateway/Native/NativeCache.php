@@ -40,10 +40,13 @@ class NativeCache implements CacheStore
         }
 
         $cache = \unserialize(\file_get_contents($location));
+        if(!is_array($cache)) {
+            return $default;
+        }
         $cache = $this->cleanCache($cache, $location);
 
         if (!isset($cache[$key])) {
-            $default;
+            return $default;
         }
 
         return $cache[$key]['v'];
