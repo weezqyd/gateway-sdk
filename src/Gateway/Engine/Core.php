@@ -77,4 +77,14 @@ class Core
     {
         $this->client = $client;
     }
+
+    /**
+     * Switch the project id on the fly.
+     *
+     * @param string $projectId
+     **/
+    public function setProject(string $projectId)
+    {
+        $this->config->set('project_id', $projectId);
+    }
 }
