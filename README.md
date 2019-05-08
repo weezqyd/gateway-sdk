@@ -38,6 +38,8 @@ php artisan vendor:publish --provider 'Roamtech\Gateay\Laravel\ServiceProvider'
 
 ### Configuration
 
+#### Vanilla PHP
+
 For Vanilla PHP you will need to initialize the sdk bootstrapper to get started.
 
 ```php
@@ -57,14 +59,35 @@ $gateway = new GatewayClient($core);
 
 ```
 #### Laravel
-The Gateway client is resolved from the service container as:  
+Laravel configuration is straight forward.
+After installation the API client is registered in the service container as:  
 
 ```php
-use use Roamtech\Gateway\Client as GatewayClient;
+
 
 $gateway = resolve('roamtech.client');
-// Or
-$gateway = resolve(GatewayClient::class);
+// Or Type hint it in method definitions
+use Roamtech\Gateway\Client as GatewayClient;
+
+class Mycontroller extends Controller {
+    
+    /** 
+     * @var GatewayClient 
+     */
+    private $apiClient;
+    
+    /** 
+     * Inject client in constructor
+     *
+     * @param GatewayClient $apiClient
+     */
+    public function __construct(GatewayClient $apiClient)
+    {
+        $this->apiClient = $apiClient;
+    }
+}
+
+
 ``` 
 
 ## SMS
