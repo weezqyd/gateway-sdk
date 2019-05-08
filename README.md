@@ -45,16 +45,28 @@ use GuzzleHttp\Client;
 use Roamtech\Gateway\Engine\Core;
 use Roamtech\Gateway\Native\NativeCache;
 use Roamtech\Gateway\Native\NativeConfig;
+use Roamtech\Gateway\Client as GatewayClient;
 
 require "vendor/autoload.php";
 
 $config = new NativeConfig(__DIR__.'/config/roamtechapi.php');
 // Configure the HTTP client
 $client = new Client(['base_uri' => $config->get('roamtechapi.api_endpoint')]);
-
-$gateway = new Core($client, $config, new NativeCache($config));
+$core = new Core($client, $config, new NativeCache($config));
+$gateway = new GatewayClient($core);
 
 ```
+#### Laravel
+The Gateway client is resolved from the service container as:  
+
+```php
+use use Roamtech\Gateway\Client as GatewayClient;
+
+$gateway = resolve('roamtech.client');
+// Or
+$gateway = resolve(GatewayClient::class);
+``` 
+
 ## SMS
 
 #### Send Bulk SMS
@@ -76,7 +88,11 @@ This API allows you to send a single message to one or multiple recipients.
 ```php
 $recipients = ['25472xxxxxxx', '25471xxxxxxx'];
 $message = 'A test message to say hello';
-$options = ['from' => 'YourSenderId'];
+$options = [
+    'from' => 'YourSenderId'
+    'messageId' => '345623', 
+    'callback' => 'http://yoursite.com/sms/callback/345623',
+];
 
 // Let us send our message 
 $response = $gateway->sms()->sendMessage($message, $recipients, $options);
@@ -91,4 +107,29 @@ var_dump($response);
 ```
 
 ### Airtime
-Coming soon
+
+You can also credit airtime to your customers instantly. 
+This Api is asynchronous when you initiate a request our API will respond back to you with the transaction and a pending status. 
+We will then send a callback to your application with the final status.
+
+```php
+$recipients = [
+    [
+        'phoneNumber' => '25472xxxxxxx',
+        'amount' => 10
+    ],
+    [
+        'phoneNumber' => '25471xxxxxxx',
+        'amount' => 10
+    ]
+];
+$callback = 'http://mysite.com/callback?id=50';
+
+// initiate the airtime purchase transaction
+$response = $gateway->airtime()
+->setRecipients($recipients)
+->setCallback($callback)
+->purchase();
+
+var_dump($response);
+```
