@@ -2,6 +2,7 @@
 
 namespace Roamtech\Gateway;
 
+use Roamtech\Gateway\Api\Airtime\Transaction;
 use Roamtech\Gateway\Engine\Core as Gateway;
 
 /**
@@ -32,10 +33,12 @@ class Client
     }
 
     /**
-     * Expose the SMS API.
+     * Expose the Airtime API.
+     *
+     * @return Transaction
      **/
     public function airtime()
     {
-        return new Api\Airtime\Transaction($this->gateway);
+        return new Transaction($this->gateway);
     }
 }
