@@ -20,4 +20,14 @@ interface ConfigurationStore
      * @return mixed
      */
     public function get($key, $default = null);
+
+    /**
+     * Set the configuration value in the store .
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return mixed
+     */
+    public function set($key, $value);
 }
