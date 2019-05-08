@@ -8,6 +8,7 @@
 
 namespace Roamtech\Gateway\Api\Airtime;
 
+use Illuminate\Support\Collection;
 use Roamtech\Gateway\Api\AbstractApi;
 use Roamtech\Gateway\Exceptions\ErrorException;
 
@@ -17,13 +18,23 @@ class Transaction extends AbstractApi
 
     private $callback = null;
 
+    /**
+     * Set the airtime recipients
+     *
+     * @param array $recipients
+     * @return $this
+     * @throws ErrorException
+     */
     public function setRecipients(array $recipients)
     {
-        $recipients = array_filter(array_unique($recipients), function($recipient) {
-            return substr((int)$recipient['phoneNumber'], 0,4) === 2547 && $recipient['amount'] >= 5;
+        $recipients = Collection::make($recipients)->unique()->filter(function($recipient) {
+            return substr((int) $recipient['phoneNumber'], 0,4) === '2547' && $recipient['amount'] >= 5;
         });
 
-        $this->recipients = $recipients;
+        if(!$recipients->count())
+            throw new  ErrorException('Invalid airtime recipients');
+
+        $this->recipients = $recipients->toArray();
 
         return $this;
     }
@@ -56,9 +67,8 @@ class Transaction extends AbstractApi
      */
     public function purchase(array $recipients = [], $callback = null)
     {
-        //$this->amount ?: $this->setAmount($amount);
-        $this->recipients ?: $this->setRecipients($recipients);
-        $this->callback ?: $this->setCallback($callback);
+        isset($this->recipients) ?: $this->setRecipients($recipients);
+        isset($this->callback) ?: $this->setCallback($callback);
         $this->endpoint = $this->buildEndpoint('airtime/purchase');
         $params = [
             'recipients' => $this->recipients,
@@ -66,6 +76,7 @@ class Transaction extends AbstractApi
         if (!empty($this->callback)) {
             $params['callback'] = $this->callback;
         }
+
         return $this->handleRequest('POST', $params);
     }
 }
