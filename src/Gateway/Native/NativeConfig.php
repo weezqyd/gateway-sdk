@@ -28,11 +28,11 @@ class NativeConfig implements ConfigurationStore
      */
     public function __construct($configPath = null)
     {
-        $defaultConfig = require __DIR__ . '/../../../assets/config/roamtechapi.php';
+        $defaultConfig = require_once __DIR__ . '/../../../assets/config/roamtechapi.php';
         $userConfig    = isset($configPath) ? $configPath : __DIR__ . '/../../../../../../config/roampechapi.php';
         $custom        = [];
         if (\is_file($userConfig)) {
-            $custom = require $userConfig;
+            $custom = require_once $userConfig;
         }
 
         $this->config = \array_merge($defaultConfig, $custom);

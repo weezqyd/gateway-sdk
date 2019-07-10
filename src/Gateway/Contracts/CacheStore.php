@@ -19,7 +19,7 @@ interface CacheStore
      *
      * @param string                                     $key
      * @param mixed                                      $value
-     * @param \DateTimeInterface|\DateInterval|float|int $minutes
+     * @param \DateTimeInterface|\DateInterval|float|int $seconds
      */
-    public function put($key, $value, $minutes = null);
+    public function put($key, $value, $seconds = null);
 }

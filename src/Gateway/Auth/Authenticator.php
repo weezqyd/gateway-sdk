@@ -136,7 +136,7 @@ class Authenticator
      */
     private function saveCredentials($credentials)
     {
-        $ttl = (int) ($credentials->expires_in / 60) - 2;
+        $ttl = (int) $credentials->expires_in - 120;
 
         $this->engine->cache->put(static::AC_TOKEN, $credentials->access_token, $ttl);
     }

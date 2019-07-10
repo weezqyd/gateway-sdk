@@ -19,7 +19,14 @@ $gateway = new \Roamtech\Gateway\Client($core);
 
 // Let us send our message
 $response = $gateway->sms()->sendMessage($message, $recipients, $options);
+
 var_dump($response);
+
+
+
+
+
+
 
 $recipients = [
     [

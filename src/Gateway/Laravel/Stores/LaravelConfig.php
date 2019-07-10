@@ -33,12 +33,23 @@ class LaravelConfig implements ConfigurationStore
      * Get given config value from the configuration store.
      *
      * @param string $key
-     * @param null   $default
+     * @param null $default
      *
      * @return mixed
      */
     public function get($key, $default = null)
     {
         return $this->repository->get($key, $default);
+    }
+
+    /**
+     * Set given config value in the configuration store.
+     *
+     * @param string $key
+     * @param $value
+     */
+    public function set($key, $value)
+    {
+        $this->repository->set($key, $value);
     }
 }

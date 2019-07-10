@@ -73,7 +73,7 @@ class NativeCache implements CacheStore
             $initial = $this->cleanCache($initial, $location);
         }
 
-        $minutes = $minutes ? Carbon::now()->addMinutes($minutes)->toDateTimeString() : null;
+        $minutes = $minutes ? Carbon::now()->addSecond($minutes)->toDateTimeString() : null;
         $payload = [$key => ['v' => $value, 't' => $minutes]];
         $payload = \serialize(\array_merge($payload, $initial));
 
