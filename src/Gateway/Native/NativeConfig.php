@@ -14,6 +14,15 @@ use Roamtech\Gateway\Contracts\ConfigurationStore;
 class NativeConfig implements ConfigurationStore
 {
 
+    private $defaultConfig = [
+
+        'env' => 'production',
+
+        'api_endpoint' => 'https://api.emalify.com',
+
+        'api_version' => 'v1',
+    ];
+
     /**
      * Gateway configuration file.
      *
@@ -24,18 +33,18 @@ class NativeConfig implements ConfigurationStore
     /**
      * NativeConfig constructor.
      *
-     * @param string $configPath
+     * @param array $config
      */
-    public function __construct($configPath = null)
+    public function __construct($config = [])
     {
-        $defaultConfig = require_once __DIR__ . '/../../../assets/config/roamtechapi.php';
-        $userConfig    = isset($configPath) ? $configPath : __DIR__ . '/../../../../../../config/roampechapi.php';
-        $custom        = [];
-        if (\is_file($userConfig)) {
-            $custom = require_once $userConfig;
+        if (!is_array($config)) {
+            $userConfig = isset($configPath) && file_exists($configPath) ? $configPath : realpath(__DIR__ . '/../../../../../../config/roamtechapi.php');
+            $config = [];
+            if (\is_file($userConfig)) {
+                $config = require_once $userConfig;
+            }
         }
-
-        $this->config = \array_merge($defaultConfig, $custom);
+        $this->config = \array_merge($this->defaultConfig, $config);
     }
 
     /**
@@ -59,7 +68,10 @@ class NativeConfig implements ConfigurationStore
 
     /**
      * Set config value.
-     **/
+     *
+     * @param $key
+     * @param $value
+     */
     public function set($key, $value)
     {
         $this->config[$key] = $value;
