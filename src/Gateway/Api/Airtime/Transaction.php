@@ -11,12 +11,17 @@ namespace Roamtech\Gateway\Api\Airtime;
 use Illuminate\Support\Collection;
 use Roamtech\Gateway\Api\AbstractApi;
 use Roamtech\Gateway\Exceptions\ErrorException;
+use Roamtech\Gateway\Support\NetworkMapper;
 
 class Transaction extends AbstractApi
 {
     private $recipients;
 
     private $callback = null;
+
+    private $allowedNetworks = [
+        'safaricom', 'airtel', 'telkom',
+    ];
 
     /**
      * Set the airtime recipients
@@ -27,12 +32,15 @@ class Transaction extends AbstractApi
      */
     public function setRecipients(array $recipients)
     {
-        $recipients = Collection::make($recipients)->unique()->filter(function($recipient) {
-            return substr((int) $recipient['phoneNumber'], 0,4) === '2547' && $recipient['amount'] >= 5;
+        $recipients = Collection::make($recipients)->unique()->filter(function ($recipient) {
+            $network = NetworkMapper::getNetwork($recipient['phoneNumber']);
+
+            return $network && in_array($network, $this->allowedNetworks) && $recipient['amount'] >= 5;
         });
 
-        if(!$recipients->count())
+        if (!$recipients->count()) {
             throw new  ErrorException('Invalid airtime recipients');
+        }
 
         $this->recipients = $recipients->toArray();
 
@@ -47,8 +55,9 @@ class Transaction extends AbstractApi
      */
     public function setCallback($url = null)
     {
-        if ($url === null)
+        if ($url === null) {
             return $this;
+        }
 
         if (filter_var($url, FILTER_VALIDATE_URL)) {
             $this->callback = $url;
@@ -56,7 +65,6 @@ class Transaction extends AbstractApi
             return $this;
         }
         throw new ErrorException(['status' => 'error', 'message' => 'Invalid callback URL'], 400);
-
     }
 
     /**
