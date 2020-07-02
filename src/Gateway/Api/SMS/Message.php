@@ -12,7 +12,6 @@ use Roamtech\Gateway\Api\AbstractApi;
 
 class Message extends AbstractApi
 {
-
     public function sendMessage($message, array $recipients, array $options = [])
     {
         $this->endpoint = $this->buildEndpoint('sms/simple/send');
@@ -37,7 +36,7 @@ class Message extends AbstractApi
 
     public function sendBulkMessages($payload, array $options = [])
     {
-       $messages = $this->validateBulkPayLoad($payload);
+        $messages = $this->validateBulkPayLoad($payload);
         $params = array_merge([
             'messages' => $messages,
         ], $options);
@@ -61,10 +60,10 @@ class Message extends AbstractApi
      * @param array $payload
      * @return array
      */
-    private function validateBulkPayLoad (array $payload)
+    private function validateBulkPayLoad(array $payload)
     {
-        return array_filter($payload, function($message) {
-           return is_array($message) && key_exists('message', $message) && key_exists('recipient', $message);
+        return array_filter($payload, function ($message) {
+            return is_array($message) && key_exists('message', $message) && key_exists('recipient', $message);
         });
     }
 }

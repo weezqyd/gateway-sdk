@@ -26,8 +26,6 @@ var_dump($response);
 
 
 
-
-
 $recipients = [
     [
         'phoneNumber' => '254720000000',
